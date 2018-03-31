@@ -34,7 +34,7 @@ public class NetworkUtils {
 
     private static final String POPULAR_ENDPOINT = "/popular";
 
-    private static final String TOPRATED_ENDPOINT = "/movie/top_rated";
+    private static final String TOPRATED_ENDPOINT = "/Movie/top_rated";
 
     // PARAMETERS
 
@@ -50,7 +50,7 @@ public class NetworkUtils {
 
     // VALUES
 
-    private static final String API_KEY = "dce614ea305d1843c149725adc966a83";
+    private static final String API_KEY = "";
     private static final String LANGUAGE = "en";
     private static final String SORT_BY_POPULARITY = "popularity.desc";
     private static final String SORT_BY_VOTE_COUNT = "vote_count.desc";
@@ -67,7 +67,7 @@ public class NetworkUtils {
      */
     public static URL buildUrl() {
 
-        // full url : http://api.themoviedb.org/3/discover/movie?api_key=dce614ea305d1843c149725adc966a83&language=en&sort_by=popularity.desc&include_adult=false&include_video=false
+        // full url : http://api.themoviedb.org/3/discover/movie?api_key=<API_KEY>&language=en&sort_by=popularity.desc&include_adult=false&include_video=false
 
 
         Uri builtUri = Uri.parse(MOVIE_DB_URL).buildUpon()
