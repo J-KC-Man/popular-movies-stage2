@@ -1,5 +1,7 @@
 package com.jman.popularmovies.utilities;
 
+import android.content.Context;
+
 import android.net.Uri;
 import android.util.Log;
 
@@ -10,7 +12,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Scanner;
+
 
 /**
  * Created by Justin on 30/03/2018.
@@ -23,18 +25,6 @@ public class NetworkUtils {
 
     private static final String TAG = NetworkUtils.class.getSimpleName();
 
-
-
-    private static final String IMAGE_BASE_URL = "http://image.tmdb.org/t/p/";
-
-    private static final String IMAGE_SIZE = "w185";
-
-    /* The format we want our API to return */
-    private static final String format = "json";
-
-    private static final String POPULAR_ENDPOINT = "/popular";
-
-    private static final String TOPRATED_ENDPOINT = "/Movie/top_rated";
 
     // PARAMETERS
 
@@ -52,8 +42,10 @@ public class NetworkUtils {
 
     private static final String API_KEY = "";
     private static final String LANGUAGE = "en";
-    private static final String SORT_BY_POPULARITY = "popularity.desc";
-    private static final String SORT_BY_VOTE_COUNT = "vote_count.desc";
+
+    // default sort option
+    public  static String SORT_BY_OPTION = "popularity.desc";
+
     private static final String FALSE = "false";
     private static final String TRUE = "true";
 
@@ -73,7 +65,7 @@ public class NetworkUtils {
         Uri builtUri = Uri.parse(MOVIE_DB_URL).buildUpon()
                 .appendQueryParameter(API_KEY_PARAM, API_KEY)
                 .appendQueryParameter(LANGUAGE_PARAM, LANGUAGE)
-                .appendQueryParameter(SORT_BY_PARAM, SORT_BY_POPULARITY)
+                .appendQueryParameter(SORT_BY_PARAM, SORT_BY_OPTION)
                 .appendQueryParameter(INCLUDE_ADULT_PARAM, FALSE)
                 .appendQueryParameter(INCLUDE_VIDEO_PARAM, FALSE)
                 .build();

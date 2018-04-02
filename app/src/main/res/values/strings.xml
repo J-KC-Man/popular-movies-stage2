@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Popular Movies</string>
+
+    <!-- for settings-->
+    <string name="refresh">Refresh</string>
+    <string name="sort_by_popularity">Sort by most popular</string>
+    <string name="sort_by_top_rated">Sort by highest rated</string>
 </resources>

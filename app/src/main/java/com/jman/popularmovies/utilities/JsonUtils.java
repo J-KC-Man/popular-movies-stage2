@@ -9,6 +9,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Justin on 30/03/2018.
@@ -16,10 +17,15 @@ import java.util.ArrayList;
 
 public class JsonUtils {
 
+
     private static ArrayList<Movie> moviesArrayList = new ArrayList<>();
 
+    public static List<Movie> getMoviesArrayList() {
+        return moviesArrayList;
+    }
 
-    public static ArrayList<Movie> parseSandwichJson(String moviesJSON) {
+
+    public static ArrayList<Movie> parseMovieJson(String moviesJSON) {
 
         try {
 
