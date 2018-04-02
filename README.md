@@ -10,3 +10,8 @@ movie poster image thumbnail
 A plot synopsis (called overview in the api)
 user rating (called vote_average in the api)
 release date
+
+
+In order to use the app, please generate an API key at https://www.themoviedb.org/ and replace the API_KEY string with the key at  /app/src/main/java/com/jman/popularmovies/utilities/NetworkUtils.java.
+
+NOTE: the generate a key you must make a profile and request an API key on the settings page of your account at settings->API.
