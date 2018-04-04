@@ -40,7 +40,7 @@ public class NetworkUtils {
 
     // VALUES
 
-    private static final String API_KEY = "";
+    private static final String API_KEY = MyMovieDatabase.API_KEY;
     private static final String LANGUAGE = "en";
 
     // default sort option
@@ -88,9 +88,12 @@ public class NetworkUtils {
     *
     * */
     public static String getResponseFromHttpUrl(URL url) throws IOException {
+
+        // to handle the connection to the server
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-        urlConnection.setRequestMethod("GET");
-        urlConnection.connect();
+
+        // used to hold the read JSON and will grow dynamically in size
+        StringBuffer buffer;
 
         // to read json from inputstream
         BufferedReader reader = null;
@@ -98,12 +101,11 @@ public class NetworkUtils {
         // to hold the final read-in json string
         String moviesJSON = null;
         try {
+            // initiates the connection
             InputStream in = urlConnection.getInputStream();
 
-            // used to hold the read JSON and will grow dynamically in size
-            StringBuffer buffer = new StringBuffer();
-
-
+            // init buffer and reader
+            buffer = new StringBuffer();
             reader = new BufferedReader(new InputStreamReader(in));
 
             // used to hold a read-in line
