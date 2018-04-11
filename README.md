@@ -8,7 +8,7 @@ Allow the user to tap on a movie poster and transition to a details screen with 
 original title
 movie poster image thumbnail
 A plot synopsis (called overview in the api)
-user rating (called vote_average in the api)
+user rating (called voteAverage in the api)
 release date
 
 

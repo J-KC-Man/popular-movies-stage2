@@ -1,5 +1,6 @@
 package com.jman.popularmovies;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
@@ -16,6 +17,9 @@ public class Activity_detail extends AppCompatActivity {
     TextView popularity;
     TextView voteAverage;
 
+    // To hold the Movie parcel
+    MovieResults.Movie movie;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +27,7 @@ public class Activity_detail extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
 
         // get the parcelable from the bundle (this.getIntent().getExtras())
-        Movie movie = this.getIntent().getExtras().getParcelable("movieDetails");
+        movie = this.getIntent().getExtras().getParcelable("movieDetails");
 
         moviePoster = findViewById(R.id.movie_detailView_poster);
 
@@ -36,15 +40,15 @@ public class Activity_detail extends AppCompatActivity {
         // put the poster of the movie in the imageView
         Picasso
                 .with(this)
-                .load(movie.getPoster_path())
+                .load(movie.getPosterPath())
                 .fit()
                 .into(moviePoster);
 
         title.setText(movie.getTitle());
-        releaseDate.setText(movie.getRelease_date());
+        releaseDate.setText(movie.getReleaseDate());
         overview.setText(movie.getOverview());
         popularity.setText(movie.getPopularity());
-        voteAverage.setText(movie.getVote_average());
+        voteAverage.setText(movie.getVoteAverage());
 
     }
 }
