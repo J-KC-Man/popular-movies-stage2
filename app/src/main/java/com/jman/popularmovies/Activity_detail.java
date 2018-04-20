@@ -1,11 +1,8 @@
 package com.jman.popularmovies;
 
-import android.content.Context;
-import android.net.Uri;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -46,22 +43,6 @@ public class Activity_detail extends AppCompatActivity {
 
         // put the poster of the movie in the imageView
 
-//        Log.d(TAG, "This is the poster path" + movie.getPosterPath());
-//
-//        Picasso.Builder builder = new Picasso.Builder(Activity_detail.this);
-//        builder.listener(new Picasso.Listener()
-//        {
-//            @Override
-//            public void onImageLoadFailed(Picasso picasso, Uri uri, Exception exception)
-//            {
-//                exception.printStackTrace();
-//            }
-//        });
-//        builder
-//                .build()
-//                .load("http://image.tmdb.org/t/p/w185/" + movie.getPosterPath())
-//                .fit()
-//                .centerInside().into(moviePoster);
         Picasso
                 .with(this)
                 .load(MOVIE_POSTER_BASE_URL + movie.getPosterPath())
