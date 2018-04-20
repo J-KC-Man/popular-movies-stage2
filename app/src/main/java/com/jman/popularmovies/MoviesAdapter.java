@@ -19,6 +19,8 @@ import java.util.List;
 
 public class MoviesAdapter extends ArrayAdapter<MovieResults.Movie> {
 
+    private final static String MOVIE_POSTER_BASE_URL = "http://image.tmdb.org/t/p/w185/";
+
     // for log debugging
     private static final String TAG = MoviesAdapter.class.getSimpleName();
     List<MovieResults.Movie> postersOfMovies;
@@ -52,7 +54,7 @@ public class MoviesAdapter extends ArrayAdapter<MovieResults.Movie> {
         // put the poster of the movie in the imageView
         Picasso
                 .with(getContext())
-                .load(movies.getPosterPath())
+                .load(MOVIE_POSTER_BASE_URL + movies.getPosterPath())
                 .fit()
                 .into(moviePosterView);
 

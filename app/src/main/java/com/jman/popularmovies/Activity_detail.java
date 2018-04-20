@@ -1,14 +1,19 @@
 package com.jman.popularmovies;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
 public class Activity_detail extends AppCompatActivity {
+
+    private static final String TAG = Activity_detail.class.getSimpleName();
 
     ImageView moviePoster;
     TextView title;
@@ -19,6 +24,8 @@ public class Activity_detail extends AppCompatActivity {
 
     // To hold the Movie parcel
     MovieResults.Movie movie;
+
+    private final static String MOVIE_POSTER_BASE_URL = "http://image.tmdb.org/t/p/w185/";
 
 
     @Override
@@ -38,9 +45,26 @@ public class Activity_detail extends AppCompatActivity {
         voteAverage = findViewById(R.id.movie_vote_average);
 
         // put the poster of the movie in the imageView
+
+//        Log.d(TAG, "This is the poster path" + movie.getPosterPath());
+//
+//        Picasso.Builder builder = new Picasso.Builder(Activity_detail.this);
+//        builder.listener(new Picasso.Listener()
+//        {
+//            @Override
+//            public void onImageLoadFailed(Picasso picasso, Uri uri, Exception exception)
+//            {
+//                exception.printStackTrace();
+//            }
+//        });
+//        builder
+//                .build()
+//                .load("http://image.tmdb.org/t/p/w185/" + movie.getPosterPath())
+//                .fit()
+//                .centerInside().into(moviePoster);
         Picasso
                 .with(this)
-                .load(movie.getPosterPath())
+                .load(MOVIE_POSTER_BASE_URL + movie.getPosterPath())
                 .fit()
                 .into(moviePoster);
 

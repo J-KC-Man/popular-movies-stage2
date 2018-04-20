@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,16 +15,12 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
 
-import com.jman.popularmovies.utilities.JsonUtils;
+
 import com.jman.popularmovies.utilities.MoviesApiService;
 import com.jman.popularmovies.utilities.MoviesApiServiceGenerator;
 import com.jman.popularmovies.utilities.MyMovieDatabase;
-import com.jman.popularmovies.utilities.NetworkUtils;
 
 
-
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
 
