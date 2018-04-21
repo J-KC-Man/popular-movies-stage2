@@ -1,4 +1,4 @@
-# popular-movies-stage1
+# popular-movies-stage2
 An Android app showcasing popular movies and includes the following features:
 
 Present the user with a grid arrangement of movie posters upon launch.
