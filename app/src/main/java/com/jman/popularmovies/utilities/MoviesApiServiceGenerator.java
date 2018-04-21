@@ -14,27 +14,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MoviesApiServiceGenerator {
 
 
-
-
     public static MoviesApiService createService() {
-
-
-        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-        // set your desired log level
-        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
-
-        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-        // add your other interceptors …
-
-        if(BuildConfig.DEBUG) {
-            // add logging as last interceptor
-            httpClient.addInterceptor(logging);  // <-- this is the important line!
-        }
-
+        
         Retrofit builder = new Retrofit.Builder()
                 .baseUrl(MoviesApiService.MOVIE_DB_URL)
                 .addConverterFactory(GsonConverterFactory.create())
-                .client(httpClient.build())
                 .build();
 
         return builder.create(MoviesApiService.class);

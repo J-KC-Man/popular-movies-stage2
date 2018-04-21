@@ -82,9 +82,6 @@ public class MovieResults {
         }
 
         public String getPosterPath() {
-
-        //    return String.format("https://image.tmdb.org/t/p/w185%s",this.posterPath);
-           // return "http://image.tmdb.org/t/p/w185/" + this.posterPath;
             return this.posterPath;
         }
 

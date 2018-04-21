@@ -18,7 +18,7 @@ public interface MoviesApiService {
       String MOVIE_DB_URL = "http://api.themoviedb.org/3/";
 
 
-    // full url : http://api.themoviedb.org/3/discover/movie?api_key=<API_KEY>&language=en&sort_by=popularity.desc&include_adult=false&include_video=false
+    // full url : http://api.themoviedb.org/3/discover/movie?api_key=<API_KEY>
 
     /*
     * other half of the request execution mechanism:

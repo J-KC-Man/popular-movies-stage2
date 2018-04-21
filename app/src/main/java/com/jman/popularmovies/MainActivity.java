@@ -87,7 +87,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void loadMovieData(String sortOrder) throws TimeoutException {
-//        new FetchMoviesTask().execute();
         Call<MovieResults> networkRequest;
         try {
 
@@ -114,8 +113,6 @@ public class MainActivity extends AppCompatActivity {
                             // assign a new list of movie objects mapped from json objects to the parsed response
                             // so we can work with it
                             movies = response.body().getListOfMovies();
-
-                            Log.d(TAG, "Number of Movies Received: " + movies.size());
 
                             // if adapter is null, instantiate and set it to gridView
                             if(adapter == null) {
@@ -228,48 +225,4 @@ public class MainActivity extends AppCompatActivity {
         return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
-//    public class FetchMoviesTask extends AsyncTask<String, Void, ArrayList<Movie>> {
-//
-//        String moviesJSONResponse;
-//        ArrayList<Movie> arrayListOfMovies;
-//
-//        @Override
-//        protected ArrayList<Movie> doInBackground(String... strings) {
-//
-//            URL moviesDataRequestUrl = null;
-//
-//
-//            // check for network connection
-//            if(isOnline()) {
-//                try {
-//                    // create url to query API
-//                    moviesDataRequestUrl = NetworkUtils.buildUrl();
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//
-//            try {
-//                // receive JSON response
-//                moviesJSONResponse = NetworkUtils.getResponseFromHttpUrl(moviesDataRequestUrl);
-//
-//                // parse JSON into a movie object and
-//                // place in array list of movie objects
-//                arrayListOfMovies = JsonUtils.parseMovieJson(moviesJSONResponse);
-//                return arrayListOfMovies;
-//
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//                return null;
-//            }
-//
-//        } //end of method
-//
-//        @Override
-//        protected void onPostExecute(ArrayList<MovieResults.Movie> movies) {
-//
-//            // tell the adapter to update the GridView UI with movie posters
-//            adapter.updateUI(movies);
-//        }
-//    }
 }
