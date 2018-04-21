@@ -156,6 +156,12 @@ public class MainActivity extends AppCompatActivity {
         return true; // give the go ahead to inflate it on the layout
     }
 
+    public void clearAdapter(MoviesAdapter adapter) {
+        if(adapter != null) {
+            adapter.clear();
+        }
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int menuItemThatWasSelected = item.getItemId();
@@ -163,7 +169,7 @@ public class MainActivity extends AppCompatActivity {
         // default sort is by popularity
 
         if (menuItemThatWasSelected == R.id.refresh) {
-            adapter.clear();
+            clearAdapter(adapter);
             try {
                 loadMovieData(SORT_BY_OPTION);
             } catch (TimeoutException e) {
@@ -177,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
 
             if(!sortBy.equals(SORT_BY_OPTION)) {
                 SORT_BY_OPTION = "top_rated";
-                adapter.clear();
+                clearAdapter(adapter);
                 try {
                     loadMovieData(SORT_BY_OPTION);
                 } catch (TimeoutException e) {
@@ -194,7 +200,7 @@ public class MainActivity extends AppCompatActivity {
 
             if(!sortBy.equals(SORT_BY_OPTION)) {
                 SORT_BY_OPTION = "popular";
-                adapter.clear();
+                clearAdapter(adapter);
                 try {
                     loadMovieData(SORT_BY_OPTION);
                 } catch (TimeoutException e) {
