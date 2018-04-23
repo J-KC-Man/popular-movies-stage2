@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
    private MoviesApiService moviesApiClientService;
 
    // the list of movie json objects represented as Java Movie objects
-   public List<MovieResults.Movie> movies;
+   public ArrayList<MovieResults.Movie> movies;
 
     // default sort option
     public static String SORT_BY_OPTION = "popular";
@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         if(savedInstanceState != null) {
-
+            movies = savedInstanceState.getParcelableArrayList("moviePosters");
         }
 
     }
@@ -95,8 +95,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-//        movies = (ArrayList<MovieResults.Movie>) saved
-//        outState.putParcelableArrayList("movieDetails", movies);
+
+        outState.putParcelableArrayList("moviePosters", movies);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        movies = savedInstanceState.getParcelableArrayList("moviePosters");
     }
 
     public void loadMovieData(String sortOrder) throws TimeoutException {

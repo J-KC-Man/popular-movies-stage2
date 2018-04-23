@@ -30,9 +30,9 @@ public class MovieResults {
 
     /* the arraylist to map to the results json array that should have inside it movie objects */
     @SerializedName("results")
-    private List<Movie> listOfMovies = new ArrayList<>();
+    private ArrayList<Movie> listOfMovies = new ArrayList<>();
 
-    public List<Movie> getListOfMovies() {
+    public ArrayList<Movie> getListOfMovies() {
         return listOfMovies;
     }
 
