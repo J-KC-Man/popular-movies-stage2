@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Parcelable;
+import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,6 +23,7 @@ import com.jman.popularmovies.utilities.MoviesApiServiceGenerator;
 import com.jman.popularmovies.utilities.MyMovieDatabase;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
 
@@ -40,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
    private MoviesApiService moviesApiClientService;
 
    // the list of movie json objects represented as Java Movie objects
-   private List<MovieResults.Movie> movies;
+   public List<MovieResults.Movie> movies;
 
     // default sort option
     public static String SORT_BY_OPTION = "popular";
@@ -83,8 +86,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        if(savedInstanceState != null) {
+
+        }
+
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+//        movies = (ArrayList<MovieResults.Movie>) saved
+//        outState.putParcelableArrayList("movieDetails", movies);
+    }
 
     public void loadMovieData(String sortOrder) throws TimeoutException {
         Call<MovieResults> networkRequest;

@@ -55,5 +55,20 @@ public class Activity_detail extends AppCompatActivity {
         popularity.setText(movie.getPopularity());
         voteAverage.setText(movie.getVoteAverage());
 
+        if(savedInstanceState != null) {
+            movie = savedInstanceState.getParcelable("movieDetails");
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable("movieDetails", movie);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        movie = savedInstanceState.getParcelable("movieDetails");
     }
 }
