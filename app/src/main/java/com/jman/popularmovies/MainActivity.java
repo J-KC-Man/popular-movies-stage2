@@ -3,6 +3,7 @@ package com.jman.popularmovies;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Parcelable;
@@ -34,8 +35,10 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-
     private static final String TAG = MainActivity.class.getSimpleName();
+
+    // reference to actual SQL database linked to this app
+   private SQLiteDatabase mDb;
 
    private GridView gridView;
    private MoviesAdapter adapter = null;
