@@ -22,4 +22,10 @@
         app:showAsAction="never"
         android:id="@+id/sort_top_rated"
         />
+    <item
+        android:title="@string/see_favourites"
+        android:orderInCategory="3"
+        app:showAsAction="never"
+        android:id="@+id/see_favourites"
+        />
 </menu>

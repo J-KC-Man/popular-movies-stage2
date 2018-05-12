@@ -34,8 +34,8 @@ public class FavouriteMoviesDbHelper extends SQLiteOpenHelper {
         final String SQL_CREATE_FAVOURITES_TABLE = "CREATE TABLE " +
                 FavouriteMovieEntry.TABLE_NAME + " (" +
                 FavouriteMovieEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                FavouriteMovieEntry.COLUMN_NAME_TITLE + " TEXT NOT NULL, " +
-                FavouriteMovieEntry.COLUMN_NAME_MOVIE_ID + " INTEGER NOT NULL, " +
+                FavouriteMovieEntry.COLUMN_NAME_MOVIE_ID + " TEXT NOT NULL, " +
+                FavouriteMovieEntry.COLUMN_NAME_TITLE + " TEXT NOT NULL" +
                 "); ";
 
         // The line that creates the table

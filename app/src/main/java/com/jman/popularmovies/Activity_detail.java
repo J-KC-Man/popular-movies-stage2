@@ -1,16 +1,25 @@
 package com.jman.popularmovies;
 
 
+import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.jman.popularmovies.data.FavouriteMoviesContract;
 import com.squareup.picasso.Picasso;
 
 public class Activity_detail extends AppCompatActivity {
 
     private static final String TAG = Activity_detail.class.getSimpleName();
+
+    private SQLiteDatabase mDb;
+    private FavouritesAdapter mAdapter;
 
     ImageView moviePoster;
     TextView title;
@@ -70,5 +79,42 @@ public class Activity_detail extends AppCompatActivity {
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         movie = savedInstanceState.getParcelable("movieDetails");
+    }
+
+    /**
+     * This method is called when user clicks on the Add to favourites button
+     *
+     * @param view The calling view (button)
+     */
+    public void addToFavouritesList(View view) {
+
+        // get the id and title of movie
+       String movieId = movie.getId();
+       String movieTitle = movie.getTitle();
+
+       // Create new empty ContentValues object
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(FavouriteMoviesContract.FavouriteMovieEntry.COLUMN_NAME_MOVIE_ID, movieId);
+        contentValues.put(FavouriteMoviesContract.FavouriteMovieEntry.COLUMN_NAME_TITLE, movieTitle);
+
+        Uri uri = getContentResolver().insert(FavouriteMoviesContract.FavouriteMovieEntry.CONTENT_URI, contentValues);
+
+        // if URI exists, show uri in toast
+        if(uri != null) {
+            Toast.makeText(getBaseContext(), uri.toString(), Toast.LENGTH_LONG).show();
+        }
+
+
+    }
+
+    private long addNewGuest(String movieId, String movieTitle) {
+
+        ContentValues cv = new ContentValues();
+
+        cv.put(FavouriteMoviesContract.FavouriteMovieEntry.COLUMN_NAME_MOVIE_ID, movieId);
+        cv.put(FavouriteMoviesContract.FavouriteMovieEntry.COLUMN_NAME_TITLE, movieTitle);
+
+        return mDb.insert(FavouriteMoviesContract.FavouriteMovieEntry.TABLE_NAME, null, cv);
     }
 }

@@ -37,9 +37,6 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
-    // reference to actual SQL database linked to this app
-   private SQLiteDatabase mDb;
-
    private GridView gridView;
    private MoviesAdapter adapter = null;
 
@@ -191,47 +188,49 @@ public class MainActivity extends AppCompatActivity {
         String sortBy;
         // default sort is by popularity
 
-        if (menuItemThatWasSelected == R.id.refresh) {
-            clearAdapter(adapter);
-            try {
-                loadMovieData(SORT_BY_OPTION);
-            } catch (TimeoutException e) {
-                e.printStackTrace();
-            }
-        }
-
-        // show top ratedmovies
-        if (menuItemThatWasSelected == R.id.sort_top_rated) {
-            sortBy = "top_rated";
-
-            if(!sortBy.equals(SORT_BY_OPTION)) {
-                SORT_BY_OPTION = "top_rated";
+        switch (menuItemThatWasSelected) {
+            case R.id.refresh:
                 clearAdapter(adapter);
                 try {
                     loadMovieData(SORT_BY_OPTION);
                 } catch (TimeoutException e) {
                     e.printStackTrace();
                 }
-            } else {
-                // else if its equal, do nothing
-            }
-        }
+                break;
+            case R.id.sort_top_rated:
+                sortBy = "top_rated";
 
-        // show movies by popularity
-        if (menuItemThatWasSelected == R.id.sort_popularity) {
-            sortBy = "popular";
-
-            if(!sortBy.equals(SORT_BY_OPTION)) {
-                SORT_BY_OPTION = "popular";
-                clearAdapter(adapter);
-                try {
-                    loadMovieData(SORT_BY_OPTION);
-                } catch (TimeoutException e) {
-                    e.printStackTrace();
+                if(!sortBy.equals(SORT_BY_OPTION)) {
+                    SORT_BY_OPTION = "top_rated";
+                    clearAdapter(adapter);
+                    try {
+                        loadMovieData(SORT_BY_OPTION);
+                    } catch (TimeoutException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    // else if its equal, do nothing
                 }
-            } else {
-                // else if its equal, do nothing
-            }
+                break;
+            case R.id.sort_popularity:
+                sortBy = "popular";
+
+                if(!sortBy.equals(SORT_BY_OPTION)) {
+                    SORT_BY_OPTION = "popular";
+                    clearAdapter(adapter);
+                    try {
+                        loadMovieData(SORT_BY_OPTION);
+                    } catch (TimeoutException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    // else if its equal, do nothing
+                }
+                break;
+            case R.id.see_favourites:
+                Intent intent = new Intent(MainActivity.this, FavouritesActivity.class);
+                startActivity(intent);
+                break;
         }
 
         return super.onOptionsItemSelected(item);

@@ -1,8 +1,15 @@
 <resources>
     <string name="app_name">Popular Movies</string>
+    <string name="movie_detail">Movie detail</string>
+    <string name="favourites">Favourites</string>
 
     <!-- for settings-->
     <string name="refresh">Refresh</string>
     <string name="sort_by_popularity">Sort by most popular</string>
     <string name="sort_by_top_rated">Sort by highest rated</string>
+    <string name="see_favourites">See favourites</string>
+
+    <!--Button in detail view -->
+    <string name="add_button_text">Add to favourites</string>
+
 </resources>
