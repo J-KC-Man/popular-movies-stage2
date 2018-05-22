@@ -1,6 +1,8 @@
 package com.jman.popularmovies.utilities;
 
 
+import com.jman.popularmovies.Models.Review;
+import com.jman.popularmovies.Models.ReviewResults;
 import com.jman.popularmovies.MovieResults;
 
 import retrofit2.Call;
@@ -37,5 +39,9 @@ public interface MoviesApiService {
             @Query("api_key") String key
     );
 
-
+    @GET("movie/{id}/reviews")
+    Call<ReviewResults> getReviewsJson (
+            @Path("id") String movieId,
+            @Query("api_key") String key
+    );
 }

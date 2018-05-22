@@ -39,9 +39,15 @@ public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.Fa
         if (!mCursor.moveToPosition(position))
             return; // bail if returned null
 
+        int idIndex = mCursor.getColumnIndex(FavouriteMoviesContract.FavouriteMovieEntry._ID);
+
         String id = mCursor.getString(mCursor.getColumnIndex(FavouriteMoviesContract.FavouriteMovieEntry.COLUMN_NAME_MOVIE_ID));
 
         String title = mCursor.getString(mCursor.getColumnIndex(FavouriteMoviesContract.FavouriteMovieEntry.COLUMN_NAME_TITLE));
+
+        // set ID for item view in RV
+        final int itemId = mCursor.getInt(idIndex);
+        holder.itemView.setTag(itemId);
 
         // Display the id
         holder.idTextView.setText(id);
@@ -74,6 +80,7 @@ public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.Fa
             return null; // bc nothing has changed
         }
 
+        Cursor temp = mCursor;
         // Update the local mCursor to be equal to newCursor
         this.mCursor = newCursor;
 
@@ -82,7 +89,7 @@ public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.Fa
             // Force the RecyclerView to refresh
             this.notifyDataSetChanged();
         }
-        return mCursor;
+        return temp;
     }
 
     class FavouritesViewHolder extends RecyclerView.ViewHolder {
