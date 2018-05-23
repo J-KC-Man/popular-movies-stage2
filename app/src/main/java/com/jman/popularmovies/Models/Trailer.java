@@ -32,6 +32,17 @@ public class Trailer {
     @SerializedName("type")
     private String type;
 
+    public Trailer(String id, String iso6391, String iso31661, String key, String name, String site, String size, String type) {
+        this.id = id;
+        this.iso6391 = iso6391;
+        this.iso31661 = iso31661;
+        this.key = key;
+        this.name = name;
+        this.site = site;
+        this.size = size;
+        this.type = type;
+    }
+
     public String getId() {
         return id;
     }
