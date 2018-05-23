@@ -62,7 +62,7 @@ public class FavouritesActivity extends AppCompatActivity implements LoaderManag
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
                 // Here is where you'll implement swipe to delete
 
-                // COMPLETED (1) Construct the URI for the item to delete
+
                 //[Hint] Use getTag (from the adapter code) to get the id of the swiped item
                 // Retrieve the id of the task to delete
                 int id = (int) viewHolder.itemView.getTag();
@@ -72,11 +72,10 @@ public class FavouritesActivity extends AppCompatActivity implements LoaderManag
                 Uri uri = FavouriteMoviesContract.FavouriteMovieEntry.CONTENT_URI;
                 uri = uri.buildUpon().appendPath(stringId).build();
 
-                // COMPLETED (2) Delete a single row of data using a ContentResolver
+
                 getContentResolver().delete(uri, null, null);
 
-                // COMPLETED (3) Restart the loader to re-query for all tasks after a deletion
-                getSupportLoaderManager().restartLoader(FAVOURITE_LOADER_ID, null, FavouritesActivity.this);
+                      getSupportLoaderManager().restartLoader(FAVOURITE_LOADER_ID, null, FavouritesActivity.this);
 
             }
         }).attachToRecyclerView(favouritesRecyclerView);

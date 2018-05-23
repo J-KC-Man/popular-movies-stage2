@@ -16,6 +16,8 @@ import android.widget.Toast;
 
 import com.jman.popularmovies.Models.Review;
 import com.jman.popularmovies.Models.ReviewResults;
+import com.jman.popularmovies.Models.Trailer;
+import com.jman.popularmovies.Models.TrailerResults;
 import com.jman.popularmovies.data.FavouriteMoviesContract;
 import com.jman.popularmovies.utilities.MoviesApiService;
 import com.jman.popularmovies.utilities.MoviesApiServiceGenerator;
@@ -50,8 +52,12 @@ public class Activity_detail extends AppCompatActivity {
 
     private MoviesApiService moviesApiClientService;
 
-    // the list of movie json objects represented as Java Movie objects
-    public ArrayList<Review> reviews;
+    // the list of review json objects represented as Java Movie objects
+    private ArrayList<Review> reviews;
+
+
+    // the list of review json objects represented as Java Movie objects
+    private ArrayList<Trailer> trailers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,9 +93,10 @@ public class Activity_detail extends AppCompatActivity {
             movie = savedInstanceState.getParcelable("movieDetails");
         }
 
-        // load movie data to UI
+        // load movie reviews and trailers to UI
         try {
             loadReviewData(movie.getId());
+            loadTrailerData(movie.getId());
         } catch (TimeoutException e) {
             e.printStackTrace();
         }
@@ -163,6 +170,7 @@ public class Activity_detail extends AppCompatActivity {
                             // so we can work with it
                             reviews = response.body().getListOfReviews();
 
+
                            // todo set text in textviews for reviews - author and content
 
                         }
@@ -202,4 +210,56 @@ public class Activity_detail extends AppCompatActivity {
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return netInfo != null && netInfo.isConnectedOrConnecting();
     }
-}
+
+    public void loadTrailerData(String movieId) throws TimeoutException {
+        Call<TrailerResults> networkRequest;
+        try {
+
+            // instantiate/create implementation of the MoviesApiService interface
+            moviesApiClientService = MoviesApiServiceGenerator.createService();
+
+            // check if device has network connection
+            if(!isOnline()) {
+                Toast.makeText(
+                        Activity_detail.this,
+                        "No internet connection",
+                        Toast.LENGTH_LONG).show();
+                throw new TimeoutException("Connect timeout: no network connection");
+            } else {
+                // make the network request to connect to the server
+                networkRequest = moviesApiClientService.getTrailersJson(movieId, MyMovieDatabase.API_KEY);
+
+                networkRequest.enqueue(new Callback<TrailerResults>() {
+                    @Override
+                    public void onResponse(Call<TrailerResults> call, Response<TrailerResults> response) {
+
+                        if(response.isSuccessful()) {
+
+                            // assign a new list of movie objects mapped from json objects to the parsed response
+                            // so we can work with it
+                            trailers = response.body().getListOfTrailers();
+
+                            // todo set text in textviews for reviews - author and content
+
+                        }
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<TrailerResults> call, Throwable t) {
+                        Toast.makeText(
+                                Activity_detail.this,
+                                "network request failed",
+                                Toast.LENGTH_LONG).show();
+                        t.getStackTrace();
+                    }
+                });
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+} // end of class
