@@ -9,6 +9,9 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -18,6 +21,7 @@ import com.jman.popularmovies.Models.Review;
 import com.jman.popularmovies.Models.ReviewResults;
 import com.jman.popularmovies.Models.Trailer;
 import com.jman.popularmovies.Models.TrailerResults;
+import com.jman.popularmovies.adapters.MovieDetailRecyclerViewAdapter;
 import com.jman.popularmovies.data.FavouriteMoviesContract;
 import com.jman.popularmovies.utilities.MoviesApiService;
 import com.jman.popularmovies.utilities.MoviesApiServiceGenerator;
@@ -35,29 +39,24 @@ public class Activity_detail extends AppCompatActivity {
 
     private static final String TAG = Activity_detail.class.getSimpleName();
 
-    private SQLiteDatabase mDb;
-    private FavouritesAdapter mAdapter;
+    /* the adapter*/
+    private MovieDetailRecyclerViewAdapter mAdapter;
 
-    ImageView moviePoster;
-    TextView title;
-    TextView releaseDate;
-    TextView overview;
-    TextView popularity;
-    TextView voteAverage;
+    /* RV */
+    private RecyclerView movieDetailRecyclerView;
 
     // To hold the Movie parcel
-    MovieResults.Movie movie;
+    private MovieResults.Movie movie;
 
-    private final static String MOVIE_POSTER_BASE_URL = "http://image.tmdb.org/t/p/w185/";
-
+    // retrofit URL endpoint declarations
     private MoviesApiService moviesApiClientService;
 
     // the list of review json objects represented as Java Movie objects
-    private ArrayList<Review> reviews;
+    private ArrayList<Review> reviews = new ArrayList<>();
 
 
     // the list of review json objects represented as Java Movie objects
-    private ArrayList<Trailer> trailers;
+    private ArrayList<Trailer> trailers = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,27 +66,17 @@ public class Activity_detail extends AppCompatActivity {
         // get the parcelable from the bundle (this.getIntent().getExtras())
         movie = this.getIntent().getExtras().getParcelable("movieDetails");
 
-        moviePoster = findViewById(R.id.movie_detailView_poster);
+        movieDetailRecyclerView = this.findViewById(R.id.movie_detail_view);
+        movieDetailRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        title = findViewById(R.id.movie_title);
-        releaseDate = findViewById(R.id.movie_release_date);
-        overview = findViewById(R.id.movie_overview);
-        popularity = findViewById(R.id.movie_popularity);
-        voteAverage = findViewById(R.id.movie_vote_average);
+        mAdapter = new MovieDetailRecyclerViewAdapter(movie, reviews, trailers, this);
 
-        // put the poster of the movie in the imageView
+        // divider line at bottom of review view
+        movieDetailRecyclerView.addItemDecoration(new DividerItemDecoration(Activity_detail.this, DividerItemDecoration.VERTICAL));
 
-        Picasso
-                .with(this)
-                .load(MOVIE_POSTER_BASE_URL + movie.getPosterPath())
-                .fit()
-                .into(moviePoster);
+        // connect adapter and views to recycler view
+        movieDetailRecyclerView.setAdapter(mAdapter);
 
-        title.setText(movie.getTitle());
-        releaseDate.setText(movie.getReleaseDate());
-        overview.setText(movie.getOverview());
-        popularity.setText(movie.getPopularity());
-        voteAverage.setText(movie.getVoteAverage());
 
         if(savedInstanceState != null) {
             movie = savedInstanceState.getParcelable("movieDetails");
@@ -138,7 +127,6 @@ public class Activity_detail extends AppCompatActivity {
             Toast.makeText(getBaseContext(), uri.toString(), Toast.LENGTH_LONG).show();
         }
 
-
     }
 
 
@@ -170,11 +158,14 @@ public class Activity_detail extends AppCompatActivity {
                             // so we can work with it
                             reviews = response.body().getListOfReviews();
 
-
-                           // todo set text in textviews for reviews - author and content
-
+                            if (mAdapter == null) {
+                                // init adapter and attach to gridView
+                                mAdapter = new MovieDetailRecyclerViewAdapter(movie, reviews, trailers, Activity_detail.this);
+                                movieDetailRecyclerView.setAdapter(mAdapter);
+                            } else {
+                                mAdapter.updateReviewsUI(reviews);
+                            }
                         }
-
                     }
 
                     @Override
@@ -239,8 +230,14 @@ public class Activity_detail extends AppCompatActivity {
                             // so we can work with it
                             trailers = response.body().getListOfTrailers();
 
-                            // todo set text in textviews for reviews - author and content
 
+                            if (mAdapter == null) {
+                                // init adapter and attach to gridView
+                                mAdapter = new MovieDetailRecyclerViewAdapter(movie, reviews, trailers, Activity_detail.this);
+                                movieDetailRecyclerView.setAdapter(mAdapter);
+                            } else {
+                                mAdapter.updateTrailersUI(trailers);
+                            }
                         }
 
                     }

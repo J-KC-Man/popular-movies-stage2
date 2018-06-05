@@ -12,4 +12,7 @@
     <!--Button in detail view -->
     <string name="add_button_text">Add to favourites</string>
 
+    <!--text for play button in activity detail-->
+    <string name="play_button_text">Play</string>
+
 </resources>
