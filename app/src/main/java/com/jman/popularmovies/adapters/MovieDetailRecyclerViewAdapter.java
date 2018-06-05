@@ -88,13 +88,13 @@ public class MovieDetailRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
                 break;
             case REVIEWS:
                 MovieReviewViewHolder reviewsVH = (MovieReviewViewHolder) holder;
-                reviewsVH.bindMovieReviewViews(position);
+                reviewsVH.bindMovieReviewViews(position - 1);
                 Log.d(TAG, "item count " + getItemCount());
                 Log.d(TAG, "onBindViewHolder for REVIEWS Position: " + position);
                 break;
             case TRAILERS:
                 MovieTrailerViewHolder trailersVH = (MovieTrailerViewHolder) holder;
-                trailersVH.bindMovieTrailerViews(position);
+                trailersVH.bindMovieTrailerViews(position - (1 + reviews.size()));
                 Log.d(TAG, "onBindViewHolder for TRAILERS Position: " + position);
                 break;
 //            default:
