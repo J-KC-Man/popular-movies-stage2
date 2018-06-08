@@ -103,31 +103,6 @@ public class Activity_detail extends AppCompatActivity {
         movie = savedInstanceState.getParcelable("movieDetails");
     }
 
-    /**
-     * This method is called when user clicks on the Add to favourites button
-     *
-     * @param view The calling view (button)
-     */
-    public void addToFavouritesList(View view) {
-
-        // get the id and title of movie
-       String movieId = movie.getId();
-       String movieTitle = movie.getTitle();
-
-       // Create new empty ContentValues object
-        ContentValues contentValues = new ContentValues();
-
-        contentValues.put(FavouriteMoviesContract.FavouriteMovieEntry.COLUMN_NAME_MOVIE_ID, movieId);
-        contentValues.put(FavouriteMoviesContract.FavouriteMovieEntry.COLUMN_NAME_TITLE, movieTitle);
-
-        Uri uri = getContentResolver().insert(FavouriteMoviesContract.FavouriteMovieEntry.CONTENT_URI, contentValues);
-
-        // if URI exists, show uri in toast
-        if(uri != null) {
-            Toast.makeText(getBaseContext(), uri.toString(), Toast.LENGTH_LONG).show();
-        }
-
-    }
 
 
     public void loadReviewData(String movieId) throws TimeoutException {

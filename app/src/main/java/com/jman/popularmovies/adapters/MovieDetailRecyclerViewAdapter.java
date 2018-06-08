@@ -1,6 +1,10 @@
 package com.jman.popularmovies.adapters;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,12 +13,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 
 import com.jman.popularmovies.Activity_detail;
 import com.jman.popularmovies.Models.Review;
 import com.jman.popularmovies.Models.Trailer;
 import com.jman.popularmovies.MovieResults;
 import com.jman.popularmovies.R;
+import com.jman.popularmovies.data.FavouriteMoviesContract;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -140,8 +147,11 @@ public class MovieDetailRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
 
         private final static String MOVIE_POSTER_BASE_URL = "http://image.tmdb.org/t/p/w185/";
 
+        private String addToFavouritesText = "Add to Favourites";
+        private String removeFromFavouritesText = "Remove from Favourites";
 
         ImageView moviePoster;
+        Button favouritesButton;
         TextView title;
         TextView releaseDate;
         TextView overview;
@@ -152,11 +162,35 @@ public class MovieDetailRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
             super(itemView);
 
             moviePoster = itemView.findViewById(R.id.movie_detailView_poster);
+            favouritesButton = itemView.findViewById(R.id.add_to_favourites_button);
             title = itemView.findViewById(R.id.movie_title);
             releaseDate = itemView.findViewById(R.id.movie_release_date);
             overview = itemView.findViewById(R.id.movie_overview);
             popularity = itemView.findViewById(R.id.movie_popularity);
             voteAverage = itemView.findViewById(R.id.movie_vote_average);
+
+            setButtonText();
+            favouritesButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(favouritesButton.getText().equals(addToFavouritesText)) {
+                        // add to favourites method
+                        addToFavouritesList();
+                    }
+
+                    if(favouritesButton.getText().equals(removeFromFavouritesText)) {
+                        // removeFromfavourites method
+                        removeFromFavouritesList();
+                    }
+
+                    setButtonText();
+                }
+            });
+
+            //set onclick listener on button
+            // getText()
+            // if add to favourites is the text, invoke add to favourites method
+            // if remove from favourites is the text, invoke delete from favourites method
 
         }
 
@@ -172,6 +206,74 @@ public class MovieDetailRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
             overview.setText(movie.getOverview());
             popularity.setText(movie.getPopularity());
             voteAverage.setText(movie.getVoteAverage());
+
+        }
+
+
+        public void setButtonText() {
+            // query db to find is movie id is in the table
+            String movieId = movie.getId();
+            String mSelection = "movieId=?";
+            String[] mSelectionArgs = new String[]{movieId};
+
+            Cursor retCursor;
+
+          retCursor =  mContext.getContentResolver().query(FavouriteMoviesContract.FavouriteMovieEntry.CONTENT_URI,
+                    null,
+                    mSelection,
+                    mSelectionArgs,
+                    null
+
+            );
+            // if movie not in db, button.setText("Add to Favourites")
+
+            if(retCursor.getCount() <= 0) {
+                favouritesButton.setText(addToFavouritesText);
+            }
+            // if movie in db already, button.setText(Remove from favourites)
+            else if(retCursor.getCount() > 0) {
+                favouritesButton.setText(removeFromFavouritesText);
+            }
+
+        }
+
+        /**
+         * This method is called when user clicks on the Add to favourites button
+         *
+         *
+         */
+        public void addToFavouritesList() {
+
+            // get the id and title of movie
+            String movieId = movie.getId();
+            String movieTitle = movie.getTitle();
+
+            // Create new empty ContentValues object
+            ContentValues contentValues = new ContentValues();
+
+            contentValues.put(FavouriteMoviesContract.FavouriteMovieEntry.COLUMN_NAME_MOVIE_ID, movieId);
+            contentValues.put(FavouriteMoviesContract.FavouriteMovieEntry.COLUMN_NAME_TITLE, movieTitle);
+
+            Uri uri = mContext.getContentResolver().insert(FavouriteMoviesContract.FavouriteMovieEntry.CONTENT_URI, contentValues);
+
+            // if URI exists, show uri in toast
+            if(uri != null) {
+                Toast.makeText(mContext, uri.toString(), Toast.LENGTH_LONG).show();
+            }
+        }
+
+
+        public void removeFromFavouritesList() {
+            String movieId = movie.getId();
+            String mSelection = "movieId=?";
+            String[] mSelectionArgs = new String[]{movieId};
+
+            mContext.getContentResolver().delete(FavouriteMoviesContract.FavouriteMovieEntry.CONTENT_URI,
+                    mSelection,
+                    mSelectionArgs
+            );
+
+            Toast.makeText(mContext, "Movie removed", Toast.LENGTH_LONG).show();
         }
     } // end of viewholder class
 
@@ -200,6 +302,9 @@ public class MovieDetailRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
         private TextView videoType;
         private Button playButton;
 
+        String videoURL = "http://www.youtube.com/watch?v=";
+        String videoId;
+
         public MovieTrailerViewHolder(View itemView) {
             super(itemView);
 
@@ -207,18 +312,27 @@ public class MovieDetailRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
             playButton = itemView.findViewById(R.id.playButton);
 
             //create on clicklistener
-//            playButton.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    // set the url and open youtube intent
-//                }
-//            });
+            playButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // set the url and open youtube intent
+                    videoURL = videoURL + videoId;
+                    Uri uri = Uri.parse(videoURL);
+
+                    // With this line the Youtube application, if installed, will launch immediately.
+                    // Without it you will be prompted with a list of the application to choose.
+                    uri = Uri.parse("vnd.youtube:"  + uri.getQueryParameter("v"));
+
+                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                    mContext.startActivity(intent);
+                }
+            });
         }
 
         public void bindMovieTrailerViews(int position) {
             // bind views
             videoType.setText(trailers.get(position).getType());
-
+            videoId = trailers.get(position).getKey();
         }
     } // end of class
 
