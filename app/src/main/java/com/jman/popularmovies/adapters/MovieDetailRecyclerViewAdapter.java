@@ -76,9 +76,6 @@ public class MovieDetailRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
             case TRAILERS:
                 View movieTrailerView = inflater.inflate(R.layout.movie_trailer_list_item, parent, false);
                 viewHolder = new MovieTrailerViewHolder(movieTrailerView);
-//            default:
-//                View v = inflater.inflate(R.layout.simple_list_item, parent, false);
-//                viewHolder = new SimpleViewHolder(v);
         }
 
         return viewHolder;
@@ -104,10 +101,6 @@ public class MovieDetailRecyclerViewAdapter extends RecyclerView.Adapter<Recycle
                 trailersVH.bindMovieTrailerViews(position - (1 + reviews.size()));
                 Log.d(TAG, "onBindViewHolder for TRAILERS Position: " + position);
                 break;
-//            default:
-//                SimpleViewHolder vh = (SimpleViewHolder) holder;
-//                vh.bindViews();
-//                break;
         }
     }
 

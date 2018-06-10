@@ -60,10 +60,7 @@ public class FavouritesActivity extends AppCompatActivity implements LoaderManag
             // Called when a user swipes left or right on a ViewHolder
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
-                // Here is where you'll implement swipe to delete
 
-
-                //[Hint] Use getTag (from the adapter code) to get the id of the swiped item
                 // Retrieve the id of the task to delete
                 int id = (int) viewHolder.itemView.getTag();
 
